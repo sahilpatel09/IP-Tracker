@@ -90,6 +90,13 @@
       </div>
 
     </div>
+
+    <div v-else-if="crash" class="row fullScreen justify-content-center align-items-center">
+      
+        <span class="sr-only">Could not load the APIs.</span>
+
+    </div>
+
     <div v-else class="row fullScreen justify-content-center align-items-center">
       <div class="spinner-border text-warning" role="status">
         <span class="sr-only">Loading....</span>
@@ -135,7 +142,8 @@ export default {
           iconHeight: 40,
           lat: null,
           lang: null,
-          error:false
+          error:false,
+          crash: false
 
       };
   },
@@ -159,7 +167,7 @@ export default {
           }).catch((err)=>{
             
             console.log("Error IPDATA FETCH", err)
-          
+            this.crash = true
           })
 
 
@@ -196,7 +204,6 @@ export default {
           }).catch((err)=>{
 
             console.log("There is an error fetching ipdata.", err)
-            
             return false
           })
       },
