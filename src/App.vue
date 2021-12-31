@@ -1,5 +1,4 @@
 <template>
-  Simple Vue App
   <Tracker />
 </template>
 
@@ -14,5 +13,8 @@ export default {
 </script>
 
 <style>
-
+body{
+  background:#0a192f !important;
+  color:white;
+}
 </style>
