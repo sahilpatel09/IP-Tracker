@@ -1,18 +1,16 @@
 <template>
 
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="ipAddress">
       <div class="row justify-content-center banner">
         <div class="col-md-8 col-sm-6">
           <form @submit.prevent="sendInfo">
               <input type="text" class="textField" name="ipinput" placeholder="IP Address" v-model="ipAddress" />
               <input type="submit" class="buttonSend" name="sendInfo" />
-
           </form>
         </div>
       </div>
 
       <div class="row">
-        
         <div class="col-md-6 col-sm-6 ipData" v-if="ipData">
           <article>
             <header>
@@ -27,7 +25,7 @@
               <span class=" badgeData badge rounded-pill"><i class="fa fa-network-wired"></i>{{ipData.org}}</span>
               <span class=" badgeData badge rounded-pill"><i class="fa fa-money-check-alt"></i>{{ipData.currency}}</span>
               <span class=" badgeData badge rounded-pill"><i class="fa fa-ethernet"></i>{{ipData.version}}</span>
-
+              <br />
               <span class=" badgeData badge rounded-pill bg-primary">{{ipData.timezone}}</span>
               <span class=" badgeData badge rounded-pill bg-primary">{{ipData.country_tld}}</span>
 
@@ -40,24 +38,27 @@
           </article>
         </div>
 
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6 bg-primary">
             
         </div>
 
       </div>
 
-
-
+    </div>
+    <div v-else class="row fullScreen justify-content-center align-items-center">
+      <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
 
 
 
-  <div class="hello" v-if="ipAddress">
+<!--   <div class="hello" v-if="ipAddress">
     I am a Tracker Map for the IP {{ipAddress}}
     <div class="" v-if="ipData">
     {{ipData}}  
     </div>
-  </div>
+  </div> -->
 <!--   <div v-else>
     Somethign is Wrong
   </div> -->
@@ -141,5 +142,10 @@ body{
 }
 .IP{
   color:orange;
+}
+.fullScreen{
+  position:fixed;
+  width:100%;
+  height:100%;
 }
 </style>
