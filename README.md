@@ -1,5 +1,5 @@
 # IP-Info-tracker
-I created this project for and also to teach vue js to my friend. Feel free to contribute to this project. I could add a lot of stuff but I did it in just 2 hours. It can be a good one day project for beginners.
+I created this project for fun and also to teach vue js to my friend. Feel free to contribute to this project. I could add a lot of stuff but I did it in just 2 hours. It can be a good one day project for beginners.
 
 ![IP-INFO-TRACKER-GITHUB](https://raw.githubusercontent.com/sahilpatel09/ip-tracker/main/public/screenshot_ip_info_tracker.png)
 
