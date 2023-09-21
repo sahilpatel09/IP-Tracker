@@ -1,31 +1,75 @@
-# IP-Info-tracker
-I created this project for fun and also to teach vue js to my friend. Feel free to contribute to this project. I could add a lot of stuff but I did it in just 2 hours. It can be a good one day project for beginners.
+# Nuxt 3 Minimal Starter
 
-![IP-INFO-TRACKER-GITHUB](https://raw.githubusercontent.com/sahilpatel09/ip-tracker/main/public/screenshot_ip_info_tracker.png)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-# What Does It Do?
-It does automatically finds your IP address and uses it to fetch your location and information related to your ISP. You can also yourself add any IP address and fetch information realted to it. In addition to showing information, it also shows the location of it on the map.
-## Project setup
-```
-git clone https://github.com/sahilpatel09/ip-tracker.git
-cd ip-tracker
+## Setup
+
+Make sure to install the dependencies:
+
+```bash
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
 yarn install
+
+# bun
+bun install
 ```
 
-### For development
-```
-yarn serve
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-### For production
-```
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
 yarn build
+
+# bun
+bun run build
 ```
 
-### Lints and fixes files
-```
-yarn lint
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
