@@ -11,6 +11,11 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "nuxt": "^3.7.3"
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "@vue-leaflet/vue-leaflet": "^0.6.1",
+    "leaflet": "^1.8.0",
+    "nuxt": "^3.7.3",
+    "nuxt3-leaflet": "^1.0.12",
+    "postcss-custom-properties": "^13.3.2"
   }
 }
