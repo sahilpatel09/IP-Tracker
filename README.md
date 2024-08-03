@@ -1,31 +1,48 @@
-# IP-Info-tracker
-I created this project for fun and also to teach vue js to my friend. Feel free to contribute to this project. I could add a lot of stuff but I did it in just 2 hours. It can be a good one day project for beginners.
+# IP Tracker
 
-![IP-INFO-TRACKER-GITHUB](https://raw.githubusercontent.com/sahilpatel09/ip-tracker/main/public/screenshot_ip_info_tracker.png)
+Welcome to the IP Tracker project! This web application allows users to track the location and details of IP addresses using a simple, user-friendly interface.
 
-# What Does It Do?
-It does automatically finds your IP address and uses it to fetch your location and information related to your ISP. You can also yourself add any IP address and fetch information realted to it. In addition to showing information, it also shows the location of it on the map.
-## Project setup
-```
-git clone https://github.com/sahilpatel09/ip-tracker.git
-cd ip-tracker
-yarn install
-```
+## Features
 
-### For development
-```
-yarn serve
-```
+- **Track IP Address**: Enter any IP address to view its location and associated information.
+- **Display Map**: Visualize the location of the IP address on a Leaflet map.
+- **Current IP Detection**: Automatically detect and display the user's current IP address.
+- **Detailed Information**: View comprehensive details about the IP address, including city, country, network, and more.
 
-### For production
-```
-yarn build
-```
+## Tech Stack
 
-### Lints and fixes files
-```
-yarn lint
-```
+- **Frontend**: 
+  - HTML
+  - CSS (Tailwind CSS for styling)
+  - JavaScript
+  - Leaflet.js (for interactive maps)
+- **Backend**:
+  - IPAPI (for IP geolocation data)
+  - Ipify (for current IP detection)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/ip-tracker.git
+   cd ip-tracker
+   ```
+
+2. **Open `index.html` in your web browser:**
+
+   Simply open the `index.html` file in your preferred web browser to view and interact with the IP Tracker application.
+
+## Usage
+
+1. **Enter IP Address**: Type any IP address into the input field and click the "Track" button to view its location and details.
+2. **Current IP**: Click the "Track" button without entering an IP address to automatically detect and display your current IP address and its details.
+3. **View Map**: The location of the IP address will be displayed on an interactive map.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+Enjoy using IP Tracker!
