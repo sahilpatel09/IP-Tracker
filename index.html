@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+  <style>
+    body {
+      background-color: #1f2937;
+      color: #9ca3af;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .map {
+      height: 400px;
+    }
+    .text-orange {
+      color: #f97316;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M16 11h-2V9h2v2M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m7 2H8v10h2V7m2 10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-4v10Z" />
+        </svg>
+        <span>Tracker</span>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z" />
+            </svg>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="input-container">
+      <input type="text" id="ip-input" placeholder="Enter IP Address" class="bg-gray-900 p-2">
+      <button id="track-btn" class="bg-blue-500 text-white px-4 py-2 rounded-r-md">Track</button>
+    </div>
+
+    <div id="info" class="info-container">
+      <h2 id="info-text" class="text-xl my-10 text-justify"></h2>
+      <div id="map" class="map"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const trackBtn = document.getElementById('track-btn');
+    const ipInput = document.getElementById('ip-input');
+    const infoText = document.getElementById('info-text');
+    const mapContainer = document.getElementById('map');
+
+    let map;
+
+    function updateMap(lat, lng) {
+      if (!map) {
+        map = L.map('map').setView([lat, lng], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+      } else {
+        map.setView([lat, lng], 10);
+      }
+    }
+
+    function fetchIpInfo(ip) {
+      fetch(`https://ipapi.co/${ip}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          const inEU = "Oh, and by the way, you're in the EU 🇪🇺 (yes, GDPR territory!).";
+          const notInEU = "Oh, and by the way, you are not in the EU 🇪🇺 (sorry, no GDPR here!).";
+
+          infoText.innerHTML = `
+            Hey there, digital traveler! 🌍<br>
+            So, you've landed in the digital realm of <span class="text-orange">${data.city}</span>, 
+            <span class="text-orange">${data.country_name}</span> (or should I say 
+            <span class="text-orange">${data.region}</span>?) with the IP 
+            <span class="text-orange">${data.ip}</span>, cruising through the 
+            <span class="text-orange">${data.network}</span> network. You're speaking in 
+            <span class="text-orange">${data.languages}</span> and spending those shiny 
+            <span class="text-orange">${data.currency}</span>s! 🌟<br><br>
+
+            You're operating in the <span class="text-orange">${data.timezone} (${data.utc_offset})</span> 
+            timezone, and your digital postman, <span class="text-orange">${data.org}</span>, is delivering those 
+            <span class="text-orange">${data.version}</span> packets right to your doorstep in the 
+            <span class="text-orange">${data.postal}</span> postal zone! 📬<br><br>
+
+            ${data.in_eu ? inEU : notInEU}<br><br>
+
+            You're residing in a country with a whopping 
+            <span class="text-orange">${data.country_area}</span> sq km of area and 
+            <span class="text-orange">${data.country_population}</span> fellow digital wanderers in 
+            <span class="text-orange">${data.country_name}</span>! 🏞️<br><br>
+
+            Fancy, right? 😉
+          `;
+
+          updateMap(data.latitude, data.longitude);
+        })
+        .catch(error => console.error('Error fetching IP info:', error));
+    }
+
+    function getCurrentIp() {
+      fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => {
+          ipInput.value = data.ip;
+          fetchIpInfo(data.ip);
+        })
+        .catch(error => console.error('Error fetching current IP:', error));
+    }
+
+    trackBtn.addEventListener('click', () => {
+      const ip = ipInput.value;
+      if (ip) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('ip', ip);
+        window.history.pushState({}, '', url);
+        fetchIpInfo(ip);
+      }
+    });
+
+    window.addEventListener('popstate', () => {
+      const params = new URLSearchParams(window.location.search);
+      const ip = params.get('ip');
+      if (ip) {
+        ipInput.value = ip;
+        fetchIpInfo(ip);
+      } else {
+        getCurrentIp();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const ip = params.get('ip');
+      if (ip) {
+        ipInput.value = ip;
+        fetchIpInfo(ip);
+      } else {
+        getCurrentIp();
+      }
+    });
+  </script>
+</body>
+</html>
