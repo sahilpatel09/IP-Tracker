@@ -1,75 +1,48 @@
-# Nuxt 3 Minimal Starter
+# IP Tracker
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Welcome to the IP Tracker project! This web application allows users to track the location and details of IP addresses using a simple, user-friendly interface.
 
-## Setup
+## Features
 
-Make sure to install the dependencies:
+- **Track IP Address**: Enter any IP address to view its location and associated information.
+- **Display Map**: Visualize the location of the IP address on a Leaflet map.
+- **Current IP Detection**: Automatically detect and display the user's current IP address.
+- **Detailed Information**: View comprehensive details about the IP address, including city, country, network, and more.
 
-```bash
-# npm
-npm install
+## Tech Stack
 
-# pnpm
-pnpm install
+- **Frontend**: 
+  - HTML
+  - CSS (Tailwind CSS for styling)
+  - JavaScript
+  - Leaflet.js (for interactive maps)
+- **Backend**:
+  - IPAPI (for IP geolocation data)
+  - Ipify (for current IP detection)
 
-# yarn
-yarn install
+## Installation
 
-# bun
-bun install
-```
+1. **Clone the repository:**
 
-## Development Server
+   ```bash
+   git clone https://github.com/yourusername/ip-tracker.git
+   cd ip-tracker
+   ```
 
-Start the development server on `http://localhost:3000`:
+2. **Open `index.html` in your web browser:**
 
-```bash
-# npm
-npm run dev
+   Simply open the `index.html` file in your preferred web browser to view and interact with the IP Tracker application.
 
-# pnpm
-pnpm run dev
+## Usage
 
-# yarn
-yarn dev
+1. **Enter IP Address**: Type any IP address into the input field and click the "Track" button to view its location and details.
+2. **Current IP**: Click the "Track" button without entering an IP address to automatically detect and display your current IP address and its details.
+3. **View Map**: The location of the IP address will be displayed on an interactive map.
 
-# bun
-bun run dev
-```
+## License
 
-## Production
+This project is licensed under the [MIT License](LICENSE).
 
-Build the application for production:
+---
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Enjoy using IP Tracker!
