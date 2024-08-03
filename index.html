@@ -1,165 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IP Tracker</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
-  <style>
-    body {
-      background-color: #1f2937;
-      color: #9ca3af;
-      font-family: Arial, sans-serif;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-    .map {
-      height: 400px;
-    }
-    .text-orange {
-      color: #f97316;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+    <style>
+        body {
+            background-color: #111827;
+            color: #9ca3af;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo svg {
+            fill: #f97316;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 16px;
+        }
+
+        nav ul li {
+            cursor: pointer;
+        }
+
+        nav ul li svg {
+            fill: #f97316;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            padding-top: 20px;
+        }
+
+        #ip-input {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 8px;
+            padding: 12px;
+            flex-grow: 1;
+            color: #f9fafb;
+            font-size: 1rem;
+        }
+
+        #track-btn {
+            background-color: #3b82f6;
+            border: none;
+            border-radius: 8px;
+            color: #f9fafb;
+            padding: 12px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #track-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .map {
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .text-orange {
+            color: #f97316;
+        }
+
+        #info-text {
+            font-size: 1.125rem;
+            line-height: 1.5;
+            padding-top: 20px;
+            padding-bottom: 20px;
+
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M16 11h-2V9h2v2M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m7 2H8v10h2V7m2 10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-4v10Z" />
-        </svg>
-        <span>Tracker</span>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z" />
-            </svg>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M16 11h-2V9h2v2M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m7 2H8v10h2V7m2 10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-4v10Z" />
+                </svg>
+                <span class="text-xl font-semibold">
+                    Tracker
+                </span>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://github.com/sahilpatel09/ip-tracker/"
+                            style="text-decoration: none; display: inline-block; padding: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 15 15"
+                                class="w-6 h-6">
+                                <path fill="white"
+                                    d="M5.65 12.477a.5.5 0 1 0-.3-.954zm-3.648-2.96l-.484-.128l-.254.968l.484.127zM9 14.5v.5h1v-.5zm.063-4.812l-.054-.498a.5.5 0 0 0-.299.852zM12.5 5.912h.5v-.001zm-.833-2.006l-.466-.18a.5.5 0 0 0 .112.533zm-.05-2.017l.456-.204a.5.5 0 0 0-.319-.276zm-2.173.792l-.126.484a.5.5 0 0 0 .398-.064zm-3.888 0l-.272.42a.5.5 0 0 0 .398.064zM3.383 1.89l-.137-.48a.5.5 0 0 0-.32.276zm-.05 2.017l.354.353a.5.5 0 0 0 .112-.534zM2.5 5.93H3v-.002zm3.438 3.758l.352.355a.5.5 0 0 0-.293-.851zM5.5 11H6l-.001-.037zM5 14.5v.5h1v-.5zm.35-2.977c-.603.19-.986.169-1.24.085c-.251-.083-.444-.25-.629-.49a4.8 4.8 0 0 1-.27-.402c-.085-.139-.182-.302-.28-.447c-.191-.281-.473-.633-.929-.753l-.254.968c.08.02.184.095.355.346c.082.122.16.252.258.412c.094.152.202.32.327.484c.253.33.598.663 1.11.832c.51.168 1.116.15 1.852-.081zm4.65-.585c0-.318-.014-.608-.104-.878c-.096-.288-.262-.51-.481-.727l-.705.71c.155.153.208.245.237.333c.035.105.053.254.053.562zm-.884-.753c.903-.097 1.888-.325 2.647-.982c.78-.675 1.237-1.729 1.237-3.29h-1c0 1.359-.39 2.1-.892 2.534c-.524.454-1.258.653-2.099.743zM13 5.91a3.354 3.354 0 0 0-.98-2.358l-.707.706c.438.44.685 1.034.687 1.655zm-.867-1.824c.15-.384.22-.794.21-1.207l-1 .025a2.12 2.12 0 0 1-.142.82zm.21-1.207a3.119 3.119 0 0 0-.27-1.195l-.913.408c.115.256.177.532.184.812zm-.726-.99c.137-.481.137-.482.136-.482h-.003l-.004-.002a.462.462 0 0 0-.03-.007a1.261 1.261 0 0 0-.212-.024a2.172 2.172 0 0 0-.51.054c-.425.091-1.024.317-1.82.832l.542.84c.719-.464 1.206-.634 1.488-.694a1.2 1.2 0 0 1 .306-.03l-.008-.001a.278.278 0 0 1-.01-.002l-.006-.002h-.003l-.002-.001c-.001 0-.002 0 .136-.482m-2.047.307a8.209 8.209 0 0 0-4.14 0l.252.968a7.209 7.209 0 0 1 3.636 0zm-3.743.064C5.03 1.746 4.43 1.52 4.005 1.43a2.17 2.17 0 0 0-.51-.053a1.259 1.259 0 0 0-.241.03l-.004.002h-.003l.136.481l.137.481h-.001l-.002.001l-.003.001a.327.327 0 0 1-.016.004l-.008.001h.008a1.19 1.19 0 0 1 .298.03c.282.06.769.23 1.488.694zm-2.9-.576a3.12 3.12 0 0 0-.27 1.195l1 .025a2.09 2.09 0 0 1 .183-.812zm-.27 1.195c-.01.413.06.823.21 1.207l.932-.362a2.12 2.12 0 0 1-.143-.82zm.322.673a3.354 3.354 0 0 0-.726 1.091l.924.38c.118-.285.292-.545.51-.765zm-.726 1.091A3.354 3.354 0 0 0 2 5.93l1-.003c0-.31.06-.616.177-.902zM2 5.93c0 1.553.458 2.597 1.239 3.268c.757.65 1.74.88 2.64.987l.118-.993C5.15 9.09 4.416 8.89 3.89 8.438C3.388 8.007 3 7.276 3 5.928zm3.585 3.404c-.5.498-.629 1.09-.584 1.704L6 10.963c-.03-.408.052-.683.291-.921zM5 11v3.5h1V11zm5 3.5V13H9v1.5zm0-1.5v-2.062H9V13z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
-    <div class="input-container">
-      <input type="text" id="ip-input" placeholder="Enter IP Address" class="bg-gray-900 p-2">
-      <button id="track-btn" class="bg-blue-500 text-white px-4 py-2 rounded-r-md">Track</button>
+        <div class="input-container">
+            <input type="text" id="ip-input" placeholder="Enter IP Address" class="bg-gray-900 p-2 rounded-md">
+            <button id="track-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md">Track</button>
+        </div>
+
+        <div id="info" class="info-container">
+            <p id="info-text" class="text-xl my-10 text-justify"></p>
+            <div id="map" class="map"></div>
+        </div>
     </div>
 
-    <div id="info" class="info-container">
-      <h2 id="info-text" class="text-xl my-10 text-justify"></h2>
-      <div id="map" class="map"></div>
-    </div>
-  </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const trackBtn = document.getElementById('track-btn');
+        const ipInput = document.getElementById('ip-input');
+        const infoText = document.getElementById('info-text');
+        const mapContainer = document.getElementById('map');
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    const trackBtn = document.getElementById('track-btn');
-    const ipInput = document.getElementById('ip-input');
-    const infoText = document.getElementById('info-text');
-    const mapContainer = document.getElementById('map');
+        let map;
 
-    let map;
+        function updateMap(lat, lng) {
+            if (!map) {
+                map = L.map('map').setView([lat, lng], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            } else {
+                map.setView([lat, lng], 10);
+            }
+        }
 
-    function updateMap(lat, lng) {
-      if (!map) {
-        map = L.map('map').setView([lat, lng], 10);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-      } else {
-        map.setView([lat, lng], 10);
-      }
-    }
+        function fetchIpInfo(ip) {
+            fetch(`https://ipapi.co/${ip}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    const inEU = "Oh, and by the way, you're in the EU 🇪🇺 (yes, GDPR territory!).";
+                    const notInEU = "Oh, and by the way, you are not in the EU 🇪🇺 (sorry, no GDPR here!).";
 
-    function fetchIpInfo(ip) {
-      fetch(`https://ipapi.co/${ip}/json/`)
-        .then(response => response.json())
-        .then(data => {
-          const inEU = "Oh, and by the way, you're in the EU 🇪🇺 (yes, GDPR territory!).";
-          const notInEU = "Oh, and by the way, you are not in the EU 🇪🇺 (sorry, no GDPR here!).";
+                    infoText.innerHTML = `
+                        Hey there, digital traveler! 🌍<br>
+                        So, you've landed in the digital realm of <span class="text-orange">${data.city}</span>, 
+                        <span class="text-orange">${data.country_name}</span> (or should I say 
+                        <span class="text-orange">${data.region}</span>?) with the IP 
+                        <span class="text-orange">${data.ip}</span>, cruising through the 
+                        <span class="text-orange">${data.network}</span> network. You're speaking in 
+                        <span class="text-orange">${data.languages}</span> and spending those shiny 
+                        <span class="text-orange">${data.currency}</span>s! 🌟<br><br>
 
-          infoText.innerHTML = `
-            Hey there, digital traveler! 🌍<br>
-            So, you've landed in the digital realm of <span class="text-orange">${data.city}</span>, 
-            <span class="text-orange">${data.country_name}</span> (or should I say 
-            <span class="text-orange">${data.region}</span>?) with the IP 
-            <span class="text-orange">${data.ip}</span>, cruising through the 
-            <span class="text-orange">${data.network}</span> network. You're speaking in 
-            <span class="text-orange">${data.languages}</span> and spending those shiny 
-            <span class="text-orange">${data.currency}</span>s! 🌟<br><br>
+                        You're operating in the <span class="text-orange">${data.timezone} (${data.utc_offset})</span> 
+                        timezone, and your digital postman, <span class="text-orange">${data.org}</span>, is delivering those 
+                        <span class="text-orange">${data.version}</span> packets right to your doorstep in the 
+                        <span class="text-orange">${data.postal}</span> postal zone! 📬<br><br>
 
-            You're operating in the <span class="text-orange">${data.timezone} (${data.utc_offset})</span> 
-            timezone, and your digital postman, <span class="text-orange">${data.org}</span>, is delivering those 
-            <span class="text-orange">${data.version}</span> packets right to your doorstep in the 
-            <span class="text-orange">${data.postal}</span> postal zone! 📬<br><br>
+                        ${data.in_eu ? inEU : notInEU}<br><br>
 
-            ${data.in_eu ? inEU : notInEU}<br><br>
+                        You're residing in a country with a whopping 
+                        <span class="text-orange">${data.country_area}</span> sq km of area and 
+                        <span class="text-orange">${data.country_population}</span> fellow digital wanderers in 
+                        <span class="text-orange">${data.country_name}</span>! 🏞️<br><br>
 
-            You're residing in a country with a whopping 
-            <span class="text-orange">${data.country_area}</span> sq km of area and 
-            <span class="text-orange">${data.country_population}</span> fellow digital wanderers in 
-            <span class="text-orange">${data.country_name}</span>! 🏞️<br><br>
+                        Fancy, right? 😉`;
 
-            Fancy, right? 😉
-          `;
+                    updateMap(data.latitude, data.longitude);
 
-          updateMap(data.latitude, data.longitude);
-        })
-        .catch(error => console.error('Error fetching IP info:', error));
-    }
+                    if (map) {
+                        const marker = L.marker([data.latitude, data.longitude]).addTo(map);
+                        marker.bindPopup(`<b>${data.city}</b><br>IP: ${data.ip}`).openPopup();
+                    }
+                })
+                .catch(error => console.error('Error fetching IP info:', error));
+        }
 
-    function getCurrentIp() {
-      fetch('https://api.ipify.org/?format=json')
-        .then(response => response.json())
-        .then(data => {
-          ipInput.value = data.ip;
-          fetchIpInfo(data.ip);
-        })
-        .catch(error => console.error('Error fetching current IP:', error));
-    }
+        function getCurrentIp() {
+            fetch('https://api.ipify.org/?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipInput.value = data.ip;
+                    fetchIpInfo(data.ip);
+                })
+                .catch(error => console.error('Error fetching current IP:', error));
+        }
 
-    trackBtn.addEventListener('click', () => {
-      const ip = ipInput.value;
-      if (ip) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('ip', ip);
-        window.history.pushState({}, '', url);
-        fetchIpInfo(ip);
-      }
-    });
+        trackBtn.addEventListener('click', () => {
+            const ip = ipInput.value;
+            if (ip) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('ip', ip);
+                window.history.pushState({}, '', url);
+                fetchIpInfo(ip);
+            }
+        });
 
-    window.addEventListener('popstate', () => {
-      const params = new URLSearchParams(window.location.search);
-      const ip = params.get('ip');
-      if (ip) {
-        ipInput.value = ip;
-        fetchIpInfo(ip);
-      } else {
-        getCurrentIp();
-      }
-    });
+        window.addEventListener('popstate', () => {
+            const params = new URLSearchParams(window.location.search);
+            const ip = params.get('ip');
+            if (ip) {
+                ipInput.value = ip;
+                fetchIpInfo(ip);
+            } else {
+                getCurrentIp();
+            }
+        });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const ip = params.get('ip');
-      if (ip) {
-        ipInput.value = ip;
-        fetchIpInfo(ip);
-      } else {
-        getCurrentIp();
-      }
-    });
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const ip = params.get('ip');
+            if (ip) {
+                ipInput.value = ip;
+                fetchIpInfo(ip);
+            } else {
+                getCurrentIp();
+            }
+        });
+    </script>
 </body>
+
 </html>
