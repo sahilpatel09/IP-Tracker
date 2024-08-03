@@ -2,6 +2,8 @@
 
 Welcome to the IP Tracker project! This web application allows users to track the location and details of IP addresses using a simple, user-friendly interface.
 
+![Alt text](demo-devices.png)
+
 ## Features
 
 - **Track IP Address**: Enter any IP address to view its location and associated information.
